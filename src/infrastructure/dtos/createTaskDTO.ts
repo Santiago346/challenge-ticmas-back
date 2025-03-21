@@ -9,7 +9,7 @@ export class CreateTaskDTO {
 
     @IsBoolean()
     @ApiProperty()
-    status: boolean;
+    isDone: boolean;
 
     @IsString()
     @ApiProperty()

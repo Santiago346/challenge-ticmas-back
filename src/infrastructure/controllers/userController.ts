@@ -1,14 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Delete, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiResponse, ApiBody, ApiParam } from "@nestjs/swagger";
 import { UserService } from "src/application/user.service";
-import { User } from "src/domain/user";
 import { CreateUserDTO } from "../dtos/createUser";
 import { UserDTO } from "../dtos/userDTO";
-import { TaskDTO } from "../dtos/taskDTO";
-import { Task } from "src/domain/task";
+import { JwtAuthGuard } from "src/config/auth.guard";
 
 @Controller("users")
 @ApiTags("Users")
+@UseGuards(JwtAuthGuard)
 export class UserController {
 
     constructor(private readonly userService: UserService) { }
@@ -27,13 +26,5 @@ export class UserController {
     @ApiParam({ name: "id", type: String, description: "ID del usuario" })
     async getUserById(@Param("id") id: string): Promise<UserDTO> {
         return await this.userService.getUserById(id);
-    }
-
-    @Get(":id/tasks")
-    @ApiResponse({ status: 200, description: 'Tareas del usuario', type: [TaskDTO] })
-    @ApiResponse({ status: 404, description: 'No se encontro tareas de este usuario' })
-    @ApiParam({ name: "id", type: String, description: "ID del usuario" })
-    async getTasksUser(@Param("id") id: string): Promise<TaskDTO[]> {
-        return await this.userService.getTasksById(id);
     }
 }

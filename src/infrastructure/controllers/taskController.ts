@@ -1,23 +1,27 @@
 import { TaskService } from "src/application/task.service";
 import { CreateTaskDTO } from "../dtos/createTaskDTO";
-import { Get, Post, Body, Param, Delete, Controller, Patch } from "@nestjs/common";
-import { ApiResponse, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
+import { Get, Post, Body, Param, Delete, Controller, Patch, UseGuards, Request } from "@nestjs/common";
+import { ApiResponse, ApiBody, ApiParam, ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { UserDTO } from "../dtos/userDTO";
 import { Task } from "src/domain/task";
 import { TaskDTO } from "../dtos/taskDTO";
+import { JwtAuthGuard } from "src/config/auth.guard";
 
 
 @Controller("tasks")
 @ApiTags("Tasks")
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 export class TaskController {
     constructor(private readonly taskService: TaskService) { }
 
-    @Get()
-    @ApiResponse({ status: 200, description: 'Lista de tareas', type: [TaskDTO] })
-    @ApiResponse({ status: 400, description: 'No se encontraron tareas' })
-    async getAllTasks(
-    ): Promise<Task[]> {
-        return await this.taskService.findAll();
+    @Get(":id")
+    @ApiResponse({ status: 200, description: 'Tareas del usuario', type: [TaskDTO] })
+    @ApiResponse({ status: 404, description: 'No se encontro tareas de este usuario' })
+    @ApiParam({ name: "id", type: String, description: "ID del usuario" })
+    async getTasksUser(@Param("id") id: string, @Request() {user}): Promise<TaskDTO[]> {
+        console.log(user)
+        return await this.taskService.getTasksByUser(id);
     }
 
     @Post()

@@ -1,12 +1,15 @@
-import { Task } from "../task"
 import { User } from "../user"
 
 export interface UserRepository {
 
     save(user: User): Promise<void>
 
-    getById(id: string): Promise<Omit<User, "password">> 
+    getById(id: string): Promise<Omit<User, "password"> | null>
 
-    getAllTaskByUser(id: string): Promise<Task[]>
+    getPassword(id: string): Promise<string | undefined>;
+
+    getAllUser(): Promise<User[]>
+
+    getByEmail(email: string): Promise<User | null>
 
 }

@@ -16,17 +16,21 @@ export class TaskRepositoryInTypeOrm implements TaskRepository {
         if (!task) {
             throw new NotFoundException('Task not found');
         } else {
-            task.status = status;
+            task.isDone = status;
         }
 
         await this.repository.save(task);
     }
 
+    async getAllTaskByUser(id: string): Promise<Task[]> {
+        const tasks = await this.repository.find({
+            where: { userId: id },
+        });
+        return tasks;
+    }
+
     async save(task: Task): Promise<void> {
         await this.repository.save(task)
-    }
-    async getAll(): Promise<Task[]> {
-        return await this.repository.find();
     }
 
     async delete(taskId: string): Promise<void> {

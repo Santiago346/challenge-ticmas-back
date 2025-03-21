@@ -4,7 +4,7 @@ export interface TaskRepository {
 
     save(task: Task): Promise<void>
 
-    getAll(): Promise<Task[]>
+    getAllTaskByUser(id: string): Promise<Task[]>
 
     delete(taskId: string): Promise<void>
 

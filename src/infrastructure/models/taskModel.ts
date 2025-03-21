@@ -10,8 +10,8 @@ export class TaskModel {
     @Column({ name: "Title", type: "varchar" })
     title: string;
 
-    @Column({name: "Status", type: "boolean"})
-    status: boolean;
+    @Column({name: "IsDone", type: "boolean"})
+    isDone: boolean;
 
     @Column({ name: "UserId", type: "varchar" })
     userId: string;

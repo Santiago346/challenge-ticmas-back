@@ -10,7 +10,7 @@ export class TaskDTO {
     title: string;
 
     @ApiProperty()
-    status: boolean;
+    isDone: boolean;
 
     @ApiProperty()
     userId: string; 

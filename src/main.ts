@@ -10,6 +10,7 @@ async function bootstrap() {
     .setDescription('Create, read, update and delete tasks')
     .setVersion('1.0')
     .addTag('tasks')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-challenge-ticmas', app, documentFactory);

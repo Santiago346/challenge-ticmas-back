@@ -9,29 +9,34 @@ import { NotFoundException } from "@nestjs/common";
 export class UserRepositoryInTypeOrm implements UserRepository {
     constructor(@InjectRepository(UserModel) private repository: Repository<UserModel>) { }
 
-    async getAllTaskByUser(id: string): Promise<Task[]> {
+    async getByEmail(email: string): Promise<User | null> {
         const user = await this.repository.findOne({
-            where: { id: id },
-            relations: ['tasks']
+            where: { email }
         })
-        if (!user) {
-            throw new Error('Usuario no encontrado');
-        }
-        return user.tasks
+        return user
+    }
+
+    async getAllUser(): Promise<User[]> {
+        return await this.repository.find();
+    }
+
+    async getPassword(id: string): Promise<string | undefined> {
+        const user = await this.repository.findOne({
+            where: { id },
+            select: { password: true }
+        })
+        return user?.password
     }
 
     async save(user: User): Promise<void> {
         await this.repository.save(user);
     }
 
-    async getById(id: string): Promise<Omit<User, "password">> {
+    async getById(id: string): Promise<Omit<User, "password"> | null> {
         const user = await this.repository.findOne({
             where: { id },
-            select: {id: true, name: true, email: true}
+            select: { id: true, name: true, email: true }
         })
-        if (!user) {
-            throw new NotFoundException();
-        }
         return user
     }
 
