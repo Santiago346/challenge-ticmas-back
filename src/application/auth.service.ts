@@ -2,6 +2,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
+import { UserAccess } from 'src/config/auth/userAccess';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
         if (!user || user.password !== pass) {
             throw new UnauthorizedException();
         }
-        const payload = { sub: user.id, username: user.name };
+        const payload: UserAccess = { sub: user.id, username: user.name };
         return {
             tokenUser: await this.jwtService.signAsync(payload),
         };

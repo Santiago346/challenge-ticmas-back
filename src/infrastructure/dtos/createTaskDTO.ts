@@ -10,9 +10,4 @@ export class CreateTaskDTO {
     @IsBoolean()
     @ApiProperty()
     isDone: boolean;
-
-    @IsString()
-    @ApiProperty()
-    userId: string;
-
 }
