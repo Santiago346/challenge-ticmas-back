@@ -21,3 +21,6 @@ yarn migration:run
 
 ## Ejecutar el servidor
 yarn start:dev
+
+## Deploy
+https://challenge-ticmas-back.onrender.com
