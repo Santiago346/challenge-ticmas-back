@@ -3,23 +3,15 @@ import { Task } from "src/domain/task";
 import { TaskRepository } from "src/domain/repositories/task.repository";
 import { Repository } from "typeorm";
 import { TaskModel } from "./models/taskModel";
-import { NotFoundException } from "@nestjs/common";
 
-export class TaskRepositoryInTypeOrm implements TaskRepository {
+export class TaskRepositorySQL implements TaskRepository {
     constructor(@InjectRepository(TaskModel) private repository: Repository<TaskModel>) { }
-
-    async updateStatus(taskId: string, status: boolean): Promise<void> {
+    
+    async getById(id: string): Promise<Task | null> {
         const task = await this.repository.findOne({
-            where: { id: taskId }
+            where: { id }
         })
-
-        if (!task) {
-            throw new NotFoundException('Task not found');
-        } else {
-            task.isDone = status;
-        }
-
-        await this.repository.save(task);
+        return task;
     }
 
     async getAllTaskByUser(id: string): Promise<Task[]> {

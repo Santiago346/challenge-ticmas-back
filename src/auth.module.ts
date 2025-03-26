@@ -15,7 +15,7 @@ import { JwtStrategy } from "./config/auth/jwt.strategy";
             useFactory: (config: ConfigService) => ({
                 global: true,
                 secret: config.getOrThrow("tokenSecret"),
-                signOptions: { expiresIn: '360s' },
+                signOptions: { expiresIn: '36000s' },
             })
         }),
         PassportModule

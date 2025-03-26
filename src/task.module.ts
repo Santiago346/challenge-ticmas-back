@@ -3,8 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { TaskService } from "./application/task.service";
 import { TaskController } from "./infrastructure/controllers/taskController";
 import { TaskModel } from "./infrastructure/models/taskModel";
-import { TaskRepositoryInTypeOrm } from "./infrastructure/taskRepositoryInTypeOrm";
-
+import { TaskRepositorySQL } from "./infrastructure/taskRepositorySQL";
 
 @Module({
     imports: [TypeOrmModule.forFeature([TaskModel])],
@@ -12,7 +11,7 @@ import { TaskRepositoryInTypeOrm } from "./infrastructure/taskRepositoryInTypeOr
     providers: [TaskService,
         {
             provide: "repository",
-            useClass: TaskRepositoryInTypeOrm
+            useClass: TaskRepositorySQL
         }
     ],
     controllers: [TaskController],

@@ -8,8 +8,6 @@ export interface UserRepository {
 
     getPassword(id: string): Promise<string | undefined>;
 
-    getAllUser(): Promise<User[]>
-
     getByEmail(email: string): Promise<User | null>
 
 }

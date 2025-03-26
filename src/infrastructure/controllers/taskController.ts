@@ -6,7 +6,6 @@ import { TaskDTO } from "../dtos/taskDTO";
 import { JwtAuthGuard } from "src/config/auth.guard";
 import { UserAccess } from "src/config/auth/userAccess";
 
-
 @Controller("tasks")
 @ApiTags("Tasks")
 @ApiBearerAuth()
@@ -26,7 +25,7 @@ export class TaskController {
     @ApiResponse({ status: 200, description: 'Tarea agregada' })
     @ApiResponse({ status: 404, description: 'No se pudo agregar la tarea' })
     @ApiBody({ type: CreateTaskDTO })
-    async sendTask(@Body() task: CreateTaskDTO, @Request() { user }: { user: UserAccess }): Promise<void> {
+    async saveTask(@Body() task: CreateTaskDTO, @Request() { user }: { user: UserAccess }): Promise<void> {
         await this.taskService.saveTask(task, user.sub);
     }
 
@@ -42,8 +41,7 @@ export class TaskController {
     @ApiResponse({ status: 200, description: 'Se actualizo la tarea' })
     @ApiResponse({ status: 404, description: 'No se pudo actualizar la tarea' })
     @ApiParam({ name: "id", type: String, description: "ID de la tarea" })
-    @ApiParam({ name: "status", type: Boolean, description: "Estado de la tarea" })
     async updateTask(@Param("id") id: string, @Request() { user }: { user: UserAccess }): Promise<void> {
-        await this.taskService.changeStatusOk(id, true, user.sub);
+        await this.taskService.changeStatusOk(id, user.sub);
     }
 }

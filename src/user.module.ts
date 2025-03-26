@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModel } from "./infrastructure/models/userModel";
 import { UserService } from "./application/user.service";
-import { UserRepositoryInTypeOrm } from "./infrastructure/userRepositoryInTypeOrm";
+import { UserRepositorySQL } from "./infrastructure/userRepositorySQL";
 import { UserController } from "./infrastructure/controllers/userController";
 
 @Module({
@@ -11,7 +11,7 @@ import { UserController } from "./infrastructure/controllers/userController";
     providers: [UserService,
         {
             provide: "repository",
-            useClass: UserRepositoryInTypeOrm
+            useClass: UserRepositorySQL
         }
     ],
     controllers: [UserController],

@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration  from './configuration';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
