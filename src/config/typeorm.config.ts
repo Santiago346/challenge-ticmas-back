@@ -16,6 +16,15 @@ const AppDataSource = new DataSource({
   ],
   migrationsRun: false,
   logging: true,
+  ssl: process.env.POSTGRES_SSL === "true",
+  extra: {
+    ssl:
+      process.env.POSTGRES_SSL === "true"
+        ? {
+          rejectUnauthorized: false,
+        }
+        : null,
+  },
 });
 
 export default AppDataSource;

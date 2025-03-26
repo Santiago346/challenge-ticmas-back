@@ -4,7 +4,7 @@ import { UserModule } from './user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth.module';
 import { ConfigModule } from '@nestjs/config';
-import configuration  from './configuration';
+import configuration from './configuration';
 
 @Module({
   imports: [
@@ -17,7 +17,16 @@ import configuration  from './configuration';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       logging: true,
-      autoLoadEntities: true
+      autoLoadEntities: true,
+      ssl: process.env.POSTGRES_SSL === "true",
+      extra: {
+        ssl:
+          process.env.POSTGRES_SSL === "true"
+            ? {
+              rejectUnauthorized: false,
+            }
+            : null,
+      },
     }),
     TaskModule,
     UserModule,
